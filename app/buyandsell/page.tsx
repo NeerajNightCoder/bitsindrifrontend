@@ -7,15 +7,19 @@ const BuyAndSellPage = () => {
   const products = [
     {
       img: CalculatorImg,
+      ownerId: 1,
     },
     {
       img: CalculatorImg,
+      ownerId: 2,
     },
     {
       img: CalculatorImg,
+      ownerId: 3,
     },
     {
       img: CalculatorImg,
+      ownerId: 4,
     },
     // Add more product objects here
   ];
@@ -30,7 +34,7 @@ const BuyAndSellPage = () => {
       </div>
       <div className="pagecontenthorizontal ">
         {products.map((product) => (
-          <ProductCard product={product} />
+          <ProductCard product={product} key={product.ownerId} />
         ))}
       </div>
     </div>

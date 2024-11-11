@@ -6,10 +6,10 @@ import CutlleryIcon from "../assets/icons/cutlery.svg";
 import "./ProductCard.css";
 
 interface RestaurantCardProps {
-  product: { img: StaticImageData };
+  restaurant: { img: StaticImageData };
 }
 
-const RestaurantCard = ({ product: { img } }: RestaurantCardProps) => {
+const RestaurantCard = ({ restaurant: { img } }: RestaurantCardProps) => {
   return (
     <div className="restaurantcard">
       <Image src={img} alt="calculator" height={195} width={259} />

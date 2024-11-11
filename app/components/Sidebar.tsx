@@ -8,7 +8,6 @@ import {
   StationaryIcon,
 } from "../assets/icons/index";
 import SidebarMenuItem from "./SidebarMenuItem";
-import Link from "next/link";
 
 const Sidebar = () => {
   const data = [
