@@ -1,0 +1,108 @@
+.card {
+  display: flex;
+  width: 256px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  height: fit-content;
+}
+
+.card img {
+  /* width: 195px; */
+  /* height: 259px;*/
+  /* transform: rotate(0deg); */
+  /* background: url(<path-to-image>) lightgray 50% / cover no-repeat; */
+}
+
+.product-description {
+  display: flex;
+  padding: 12px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6.66px;
+}
+
+.details h1 {
+  color: #232d42;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.details h2 {
+  color: #232d42;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.details h3 {
+  width: 215.843px;
+  color: #8a92a6;
+  font-family: Inter;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.details p {
+  width: 215.843px;
+  color: #586074;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.action-button {
+  display: flex;
+  height: 32px;
+  padding: 6.693px 20.078px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 26px;
+  background: #e5edff;
+  box-shadow: 0px 1.673px 3.346px 0px rgba(58, 87, 232, 0.3);
+}
+
+.action-button h5 {
+  color: #4880ff;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 175%; /* 21px */
+}
+
+.restaurantcard {
+  display: flex;
+  width: 256px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  height: fit-content;
+}
+
+.restaurantcard p {
+  color: #e28983;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
