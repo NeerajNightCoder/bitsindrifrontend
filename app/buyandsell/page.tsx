@@ -1,7 +1,6 @@
 import ProductCard from "../components/ProductCard";
 import "./buyandsell.css";
 
-import CalculatorImg from "../assets/icons/calculator.png";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 

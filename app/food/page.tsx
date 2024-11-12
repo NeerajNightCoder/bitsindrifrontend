@@ -1,7 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import CalculatorImg from "../assets/icons/restaurant.png";
 import RestaurantCard from "../components/RestaurantCard";
-import { UUID } from "crypto";
 
 export interface RestaurantInterface {
   id: string;

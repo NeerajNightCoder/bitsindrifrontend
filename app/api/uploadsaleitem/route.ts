@@ -1,14 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { writeFile } from "fs/promises";
 import { supabase } from "@/lib/supabase";
 import { randomUUID } from "crypto";
 
-export const POST = async (req, res) => {
+export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
   console.log(formData);
 
-  const file = formData.get("file");
+  const file = formData.get("file") as File | null;
   const name = formData.get("name");
   const description = formData.get("description");
   const price = formData.get("price");
@@ -18,8 +18,8 @@ export const POST = async (req, res) => {
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  let filename = file.name.replaceAll(" ", "_").split(".");
-  filename = filename[0] + randomUUID() + "." + filename[1];
+  const filenameArray = file.name.replaceAll(" ", "_").split(".");
+  const filename = filenameArray[0] + randomUUID() + "." + filenameArray[1];
   console.log(filename);
   try {
     await writeFile(
@@ -27,7 +27,7 @@ export const POST = async (req, res) => {
       buffer
     );
     // Insert file info into Supabase saleItems table
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("saleitems")
       .insert([{ img: filename, price, name, contact, description }]);
 

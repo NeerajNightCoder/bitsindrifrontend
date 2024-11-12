@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 import CallActionIcon from "../assets/icons/callAction.svg";
 import LocationIcon from "../assets/icons/location.svg";
