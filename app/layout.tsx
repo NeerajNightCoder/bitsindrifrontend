@@ -30,13 +30,7 @@ export default async function RootLayout({
           </div>
           <p>{currentUrl}</p>
           <div className="avatar">
-            <Image
-              src={Avatar}
-              width={1280}
-              height={1280}
-              objectFit="cover"
-              alt="avatar"
-            />
+            <Image src={Avatar} width={1280} height={1280} alt="avatar" />
           </div>
         </div>
         <div className="flex">

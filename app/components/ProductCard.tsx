@@ -2,27 +2,38 @@ import Image, { StaticImageData } from "next/image";
 
 import CallActionIcon from "../assets/icons/callAction.svg";
 import "./ProductCard.css";
+import { SaleItem } from "../buyandsell/page";
 
 interface ProductCardProps {
-  product: { img: StaticImageData };
+  product: SaleItem;
 }
 
-const ProductCard = ({ product: { img } }: ProductCardProps) => {
+const ProductCard = ({
+  product: { img, name, description, price, contact, created_at },
+}: ProductCardProps) => {
+  const imgpath = `/uploads/${img}`;
+  console.log(imgpath);
+  if (!img) return;
   return (
     <div className="card">
-      <Image src={img} alt="calculator" height={195} width={259} />
+      <Image
+        src={`/uploads/${img}`}
+        alt="calculator"
+        height={195}
+        width={259}
+        quality={50}
+      />
       <div className="product-description">
         <div className="details">
-          <h1>Casiao Calculator</h1>
-          <h2>Price: 650</h2>
-          <p>
-            Description: 100 ms and 82ms both available best for the usage of
-            civil and other non core
-          </p>
-          <h3>3-11-2024 | 11:30 PM</h3>
+          <h1>{name}</h1>
+          <h2>Price: {price}</h2>
+          <p>Description: {description}</p>
+          <h3>{created_at.toString()}</h3>
         </div>
         <div className="action-button">
-          <CallActionIcon />
+          <a href={`call:${contact}`}>
+            <CallActionIcon />
+          </a>
         </div>
       </div>
     </div>

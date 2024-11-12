@@ -1,58 +1,30 @@
+import { supabase } from "@/lib/supabase";
 import CalculatorImg from "../assets/icons/restaurant.png";
 import RestaurantCard from "../components/RestaurantCard";
+import { UUID } from "crypto";
 
-const FoodPage = () => {
-  const resturants = [
-    {
-      img: CalculatorImg,
-      restaurantId: 1,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 2,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 3,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 4,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 5,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 6,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 7,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 8,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 9,
-    },
-    {
-      img: CalculatorImg,
-      restaurantId: 10,
-    },
-    // Add more product objects here
-  ];
+export interface RestaurantInterface {
+  id: string;
+  name: string;
+  img: string;
+  created_at: Date;
+  opens_at: string;
+  closes_at: string;
+}
+
+const FoodPage = async () => {
+  const { data, error } = await supabase.from("restaurants").select("*");
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(data);
+  }
+
   return (
     <div id="buyandsell" className="page">
       <div className="pagecontenthorizontal ">
-        {resturants.map((restaurant) => (
-          <RestaurantCard
-            restaurant={restaurant}
-            key={restaurant.restaurantId}
-          />
+        {data?.map((restaurant: RestaurantInterface) => (
+          <RestaurantCard restaurant={restaurant} key={restaurant.id} />
         ))}
       </div>
     </div>

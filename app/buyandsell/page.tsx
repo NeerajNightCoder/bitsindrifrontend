@@ -3,37 +3,39 @@ import "./buyandsell.css";
 
 import CalculatorImg from "../assets/icons/calculator.png";
 import Link from "next/link";
-const BuyAndSellPage = () => {
-  const products = [
-    {
-      img: CalculatorImg,
-      ownerId: 1,
-    },
-    {
-      img: CalculatorImg,
-      ownerId: 2,
-    },
-    {
-      img: CalculatorImg,
-      ownerId: 3,
-    },
-    {
-      img: CalculatorImg,
-      ownerId: 4,
-    },
-    // Add more product objects here
-  ];
+import { supabase } from "@/lib/supabase";
+
+export interface SaleItem {
+  id: string;
+  ownerId: string;
+  name: string;
+  description: string;
+  price: number;
+  img: string;
+  created_at: Date;
+  updated_at: Date;
+  contact: number;
+}
+const BuyAndSellPage = async () => {
+  const { data, error } = await supabase.from("saleitems").select("*");
+  let products;
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(data);
+    products = data;
+  }
   return (
     <div id="buyandsell" className="page">
       <div className="options">
-        <p>For Sale</p>
-        <p>Requested Items</p>
+        <p>Sellers</p>
+        <p>Buyers</p>
         <Link href="/buyandsell/upload" className="uploadbtn">
           Sell Product
         </Link>
       </div>
       <div className="pagecontenthorizontal ">
-        {products.map((product) => (
+        {products?.map((product: SaleItem) => (
           <ProductCard product={product} key={product.ownerId} />
         ))}
       </div>
