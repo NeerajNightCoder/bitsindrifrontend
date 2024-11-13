@@ -1,28 +1,28 @@
-# Step 1: Use a Node.js 18 base image
-FROM node:18-alpine AS build
+# Step 1: Use an official Node.js runtime as the base image
+FROM node:18-alpine
 
-# Set the working directory
+# Step 2: Set the working directory
 WORKDIR /app
 
-# Step 2: Install dependencies
+# Step 3: Copy package.json and package-lock.json to the container
 COPY package*.json ./
+
+# Step 4: Install dependencies
 RUN npm install
 
-# Step 3: Build the Next.js app
+# Step 5: Set the environment variables
+# You can add the environment variables directly here (for build time)
+ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+
+# Step 6: Copy the rest of your app's code into the container
 COPY . .
+
+# Step 7: Build the Next.js app
 RUN npm run build
 
-# Step 4: Create the final lightweight image for runtime
-FROM node:18-alpine AS runtime
-WORKDIR /app
-
-# Copy the build output from the build stage
-COPY --from=build /app/.next ./
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/public ./public
-
-# Expose the port that the app will run on
+# Step 8: Expose the port that the Next.js app will run on
 EXPOSE 3000
 
-# Run the app
+# Step 9: Start the Next.js app
 CMD ["npm", "start"]
