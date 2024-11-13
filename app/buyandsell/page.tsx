@@ -14,6 +14,7 @@ export interface SaleItem {
   created_at: Date;
   updated_at: Date;
   contact: number;
+  approved: boolean;
 }
 const BuyAndSellPage = async () => {
   const { data, error } = await supabase.from("saleitems").select("*");
@@ -34,9 +35,11 @@ const BuyAndSellPage = async () => {
         </Link>
       </div>
       <div className="pagecontenthorizontal ">
-        {products?.map((product: SaleItem) => (
-          <ProductCard product={product} key={product.ownerId} />
-        ))}
+        {products
+          ?.filter((product) => product.approved)
+          .map((product: SaleItem) => (
+            <ProductCard product={product} key={product.ownerId} />
+          ))}
       </div>
     </div>
   );

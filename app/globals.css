@@ -136,3 +136,11 @@ input {
   object-fit: cover;
   object-fit: contain;
 }
+
+/* Add this to your CSS */
+html,
+body {
+  background-color: white; /* Or any color of your choice */
+  margin: 0;
+  height: 100%;
+}
