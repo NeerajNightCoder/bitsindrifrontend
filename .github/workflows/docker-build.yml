@@ -1,4 +1,4 @@
-name: Build and Deploy Docker Image
+name: Build, Push, and Deploy Docker Image
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,9 +34,20 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }} # Store your Docker Hub username in GitHub secrets
-          password: ${{ secrets.DOCKER_PASSWORD }} # Store your Docker Hub password in GitHub secrets
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image to Docker Hub
-        run: |
-          docker push neerajisthedeveloper/bitsindri:latest
+        run: docker push neerajisthedeveloper/bitsindri:latest
+
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker pull neerajisthedeveloper/bitsindri:latest
+            docker stop bitsindri || true
+            docker rm bitsindri || true
+            docker run -d --name bitsindri -p 3000:3000 neerajisthedeveloper/bitsindri:latest
