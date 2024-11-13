@@ -13,7 +13,7 @@ RUN npm install
 # Step 5: Set the environment variables
 # You can add the environment variables directly here (for build time)
 ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
-ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+ENV NEXT_PUBLIC_SUPABASE_KEY=${NEXT_PUBLIC_SUPABASE_KEY}
 
 # Step 6: Copy the rest of your app's code into the container
 COPY . .
