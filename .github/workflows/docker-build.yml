@@ -6,8 +6,7 @@ on:
       - main
 
 jobs:
-  # Job for building the Docker image
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,12 +31,6 @@ jobs:
             --build-arg NEXT_PUBLIC_SUPABASE_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_KEY }} \
             -t neerajisthedeveloper/bitsindri:latest .
 
-  # Job for pushing the Docker image to Docker Hub
-  push:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -49,7 +42,7 @@ jobs:
 
   # Job for deploying the Docker image to EC2
   deploy:
-    needs: push
+    needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
