@@ -27,4 +27,4 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t your-username/nextjs-app:$GITHUB_SHA .  # Build the image using commit SHA as the tag
+          docker build -t neerajisthedeveloper/bitsindri:latest .  # Build the image using commit SHA as the tag
