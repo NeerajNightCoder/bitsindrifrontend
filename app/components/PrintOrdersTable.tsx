@@ -1,13 +1,14 @@
 'use client'
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 // Define the interface for a printing order
 interface PrintingOrder {
   id: number;
   name: string;
-  type: string;
+  file: string;
   size: string;
-  charges: number;
+  instruction: string;
   status: string;
 }
 
@@ -66,8 +67,8 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
           <tr>
             <th>Sl.No.</th>
             <th className="name">Name</th>
-            <th className="type">Type</th>
-            <th className="">Charges</th>
+            <th className="type">View</th>
+            <th className="">Instruction</th>
             <th className="">Status</th>
           </tr>
         </thead>
@@ -76,8 +77,8 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
             <tr key={order.id}>
               <td>{index + 1}</td>
               <td>{order.name}</td>
-              <td>{order.type}</td>
-              <td>{order.charges}</td>
+              <td><a href={order.file} target="_blank">View</a></td>
+              <td>{order.instruction}</td>
               <td>{order.status}</td>
             </tr>
           ))}
