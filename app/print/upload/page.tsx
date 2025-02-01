@@ -33,7 +33,7 @@ const UploadSaleItem = () => {
 
     try {
       // Make the POST request to your API endpoint
-      const response = await fetch("http://localhost:3000/api/printitems", {
+      const response = await fetch("https://bitsindri.vercel.app/api/printitems", {
         method: "POST",
         body: formData,
       });
