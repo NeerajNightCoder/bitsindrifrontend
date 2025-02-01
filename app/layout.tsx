@@ -17,7 +17,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        {" "}
         {/* Favicon using the base64-encoded image */}
         <link
           rel="icon"

@@ -1,16 +1,12 @@
 import "./printpage.css";
 import CloudIcon from "../assets/icons/cloud.svg";
 import PrintOrdersTable from "../components/PrintOrdersTable";
+import FileUpload from "../components/FileUpload";
 const PrintPage = () => {
   return (
     <div className="page" id="print">
       <div className="pagecontent">
-        <div className="uploadbox">
-          <CloudIcon className="uploadIcon" />
-          <h1>Upload a File</h1>
-
-          <p>Click to browse, or drag & drop a file here</p>
-        </div>
+        <FileUpload onFileUpload={()=>{}}/>
         <div className="ordersbox">
           <PrintOrdersTable />
         </div>
