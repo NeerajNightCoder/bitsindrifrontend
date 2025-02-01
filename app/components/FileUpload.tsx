@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useCallback } from 'react';
 
 // Define the props interface (if needed)
