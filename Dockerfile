@@ -13,10 +13,12 @@ RUN npm install
 # Step 5: Declare build-time arguments
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_KEY
+ARG MONGODB_URI
 
 # Step 6: Set the environment variables for runtime
 ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
 ENV NEXT_PUBLIC_SUPABASE_KEY=${NEXT_PUBLIC_SUPABASE_KEY}
+ENV MONGODB_URI=${MONGODB_URI}
 
 # Step 7: Copy the rest of your app's code into the container
 COPY . .
