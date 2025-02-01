@@ -2,7 +2,6 @@ import ProductCard from "../components/ProductCard";
 import "./buyandsell.css";
 
 import Link from "next/link";
-import clientPromise from '@/lib/mongodb'
 
 export interface SaleItem {
   id: string;
