@@ -3,23 +3,36 @@
   flex-direction: column;
   align-items: center;
   gap: 24px;
-}
-
-#print .pagecontent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
   flex: 1 0 0;
   align-self: stretch;
-  background: #f5f6fa;
+  padding-top: 100px;
 }
 
 #print .ordersbox {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   border-radius: 16px;
   border: 1px solid #f2f1f8;
   background: #fff;
+  
+}
+table{
+  border-radius: 10px;
+}
+tr{
+  
+  border: 1px solid #eee;
+}
+
+th{
+  border: 1px solid #eee;
+  padding: 10px 20px;
+}
+
+td{
+  
+  border: 1px solid #eee;
+  padding: 10px 20px;
 }

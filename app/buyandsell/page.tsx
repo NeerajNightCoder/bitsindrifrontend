@@ -2,7 +2,7 @@ import ProductCard from "../components/ProductCard";
 import "./buyandsell.css";
 
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import clientPromise from '@/lib/mongodb'
 
 export interface SaleItem {
   id: string;
@@ -17,14 +17,9 @@ export interface SaleItem {
   approved: boolean;
 }
 const BuyAndSellPage = async () => {
-  const { data, error } = await supabase.from("saleitems").select("*");
-  let products;
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(data);
-    products = data;
-  }
+  const res = await fetch('http://localhost:3000/api/saleitems')
+  const products=await res.json()
+  console.log('##############################################',products)
   return (
     <div id="buyandsell" className="page">
       <div className="options">
@@ -36,7 +31,7 @@ const BuyAndSellPage = async () => {
       </div>
       <div className="pagecontenthorizontal ">
         {products
-          ?.filter((product) => product.approved)
+          ?.filter((product:SaleItem) => product.approved)
           .map((product: SaleItem) => (
             <ProductCard product={product} key={product.ownerId} />
           ))}
