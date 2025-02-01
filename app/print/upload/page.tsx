@@ -3,46 +3,15 @@ import Link from "next/link";
 import CloudIcon from "../../assets/icons/cloud.svg";
 import "./upload.css";
 import { useState } from "react";
-import { redirect } from "next/dist/server/api-utils";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 const UploadSaleItem = () => {  
   const [file, setFile] = useState<string>();
   const [actualFile,setActualFile]=useState<File|null>(null)
-  const [fileEnter, setFileEnter] = useState(false);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
   const [contact, setContact] = useState("");
   const [instruction, setInstruction] = useState("");
-  const [image, setImage] = useState<File | null>(null);
   const [fileTypes,setFileTypes]=useState<{[key:string]:string}>({})
   const router=useRouter()
-
-
-
-
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImage(e.target.files[0]);
-      console.log(e.target.files[0].type)
-    }
-  };
-
-   // Handle drag over
-   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  // Handle file drop
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.dataTransfer.files) {
-      setImage(e.dataTransfer.files[0]);
-    }
-  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,26 +61,18 @@ const UploadSaleItem = () => {
           <h2>Fill in the details of Selling Item</h2>
         </div>
         { !file&&<div className="uploadbox" onDragOver={(e) => {
-            e.preventDefault();
-            setFileEnter(true);
-          }}
-          onDragLeave={(e) => {
-            setFileEnter(false);
-          }}
+            e.preventDefault();}}
+          onDragLeave={() => {}}
           onDragEnd={(e) => {
-            e.preventDefault();
-            setFileEnter(false);
-          }}
+            e.preventDefault();}}
           onDrop={(e) => {
-            e.preventDefault();
-            setFileEnter(false);
-            if (e.dataTransfer.items) {
+            e.preventDefault();if (e.dataTransfer.items) {
               [...e.dataTransfer.items].forEach((item, i) => {
                 if (item.kind === "file") {
                   const file = item.getAsFile();
                   if (file) {
                     setActualFile(file)
-                    let blobUrl = URL.createObjectURL(file);
+                    const blobUrl = URL.createObjectURL(file);
                     setFile(blobUrl);
                     setFileTypes({...fileTypes,[JSON.stringify(blobUrl)]:file.type})  
                   }
@@ -139,10 +100,10 @@ const UploadSaleItem = () => {
             className="hidden"
             onChange={(e) => {
               console.log(e.target.files);
-              let files = e.target.files;
+              const files = e.target.files;
               if (files && files[0]) {
                 console.log(files[0].type)
-                let blobUrl = URL.createObjectURL(files[0]);
+                const blobUrl = URL.createObjectURL(files[0]);
                 setActualFile(files[0])
                 setFile(blobUrl);
                 setFileTypes({...fileTypes,[JSON.stringify(blobUrl)]:files[0].type})           }

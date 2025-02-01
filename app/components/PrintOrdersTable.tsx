@@ -1,5 +1,4 @@
 'use client'
-import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 // Define the interface for a printing order
@@ -20,8 +19,6 @@ interface PrintOrdersTableProps {
 
 const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrdersTableProps) => {
   console.log(printItems)
-  
-  const [printingOrders, setPrintingOrders] = useState<PrintingOrder[]>(printItems);
   const [filteredOrders, setFilteredOrders] = useState<PrintingOrder[]>([]);
   const [activeFilter, setActiveFilter] = useState<'all' | 'PENDING' | 'DONE'>('all');
 
@@ -29,12 +26,12 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
   // Filter orders based on the active filter
   useEffect(() => {
     if (activeFilter === 'all') {
-      setFilteredOrders(printingOrders);
+      setFilteredOrders(printItems);
     } else {
-      const filtered = printingOrders.filter(order => order.status.toLowerCase() === activeFilter.toLocaleLowerCase());
+      const filtered = printItems.filter(order => order.status.toLowerCase() === activeFilter.toLocaleLowerCase());
       setFilteredOrders(filtered);
     }
-  }, [activeFilter, printingOrders]);
+  }, [activeFilter, printItems]);
 
   const handleFilterClick = (filter: 'all' | 'PENDING' | 'DONE') => {
     setActiveFilter(filter);

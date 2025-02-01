@@ -1,7 +1,5 @@
 import "./printpage.css";
-import CloudIcon from "../assets/icons/cloud.svg";
 import PrintOrdersTable from "../components/PrintOrdersTable";
-import FileUpload from "../components/FileUpload";
 import Link from "next/link";
 const PrintPage = async() => {
   const res= await fetch('http://localhost:3000/api/printitems')

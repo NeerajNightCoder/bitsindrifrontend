@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import multer from "multer";
-import path, { join, resolve } from "path";
-import fs from "fs";
+import path from "path";
 import  { writeFile } from "fs/promises";
 import { connectDB } from "@/lib/mongodb";
 import PrintItems from "@/models/PrintItems";

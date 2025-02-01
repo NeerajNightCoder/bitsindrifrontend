@@ -5,33 +5,11 @@ import "./upload.css";
 import { useState } from "react";
 const UploadSaleItem = () => {  
   const [file, setFile] = useState<string>();
-  const [fileEnter, setFileEnter] = useState(false);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [contact, setContact] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState<File | null>(null);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setImage(e.target.files[0]);
-    }
-  };
-
-   // Handle drag over
-   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  // Handle file drop
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.dataTransfer.files) {
-      setImage(e.dataTransfer.files[0]);
-    }
-  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,24 +54,20 @@ const UploadSaleItem = () => {
         </div>
         <div className="uploadbox" onDragOver={(e) => {
             e.preventDefault();
-            setFileEnter(true);
           }}
-          onDragLeave={(e) => {
-            setFileEnter(false);
+          onDragLeave={() => {
           }}
           onDragEnd={(e) => {
             e.preventDefault();
-            setFileEnter(false);
           }}
           onDrop={(e) => {
             e.preventDefault();
-            setFileEnter(false);
             if (e.dataTransfer.items) {
               [...e.dataTransfer.items].forEach((item, i) => {
                 if (item.kind === "file") {
                   const file = item.getAsFile();
                   if (file) {
-                    let blobUrl = URL.createObjectURL(file);
+                    const blobUrl = URL.createObjectURL(file);
                     setFile(blobUrl);
                   }
                   console.log(`items file[${i}].name = ${file?.name}`);
@@ -120,9 +94,9 @@ const UploadSaleItem = () => {
             className="hidden"
             onChange={(e) => {
               console.log(e.target.files);
-              let files = e.target.files;
+              const files = e.target.files;
               if (files && files[0]) {
-                let blobUrl = URL.createObjectURL(files[0]);
+                const blobUrl = URL.createObjectURL(files[0]);
                 setFile(blobUrl);
               }
             }}
