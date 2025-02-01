@@ -2,7 +2,7 @@ import "./printpage.css";
 import PrintOrdersTable from "../components/PrintOrdersTable";
 import Link from "next/link";
 const PrintPage = async() => {
-  const res= await fetch('http://localhost:3000/api/printitems')
+  const res= await fetch('https://bitsindri.vercel.app/api/printitems')
   const printItems=await res.json()
   console.log(printItems)
   return (

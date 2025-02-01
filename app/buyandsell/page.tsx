@@ -16,7 +16,7 @@ export interface SaleItem {
   approved: boolean;
 }
 const BuyAndSellPage = async () => {
-  const res = await fetch('http://localhost:3000/api/saleitems')
+  const res = await fetch('https://bitsindri.vercel.app/api/saleitems')
   const products=await res.json()
   console.log('##############################################',products)
   return (
