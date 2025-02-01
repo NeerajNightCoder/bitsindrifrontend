@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase";
-import RestaurantCard from "../components/RestaurantCard";
+// import { supabase } from "@/lib/supabase";
+// import RestaurantCard from "../components/RestaurantCard";
 
 export interface RestaurantInterface {
   id: string;
@@ -11,19 +11,19 @@ export interface RestaurantInterface {
 }
 
 const FoodPage = async () => {
-  const { data, error } = await supabase.from("restaurants").select("*");
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(data);
-  }
+  // const { data, error } = await supabase.from("restaurants").select("*");
+  // if (error) {
+  //   console.log(error);
+  // } else {
+  //   console.log(data);
+  // }
 
   return (
     <div id="buyandsell" className="page">
       <div className="pagecontenthorizontal ">
-        {data?.map((restaurant: RestaurantInterface) => (
+        {/* {data?.map((restaurant: RestaurantInterface) => (
           <RestaurantCard restaurant={restaurant} key={restaurant.id} />
-        ))}
+        ))} */}
       </div>
     </div>
   );

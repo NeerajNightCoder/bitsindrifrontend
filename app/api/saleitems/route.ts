@@ -5,7 +5,8 @@ import { writeFile } from "fs/promises";
 import SaleItem, { ISaleItem } from "@/models/SaleItems"; // Import the SaleItem Mongoose model and interface
 
 // Define an interface for Sale Item
-interface SaleItemRequest extends Omit<ISaleItem, "_id"> {}
+type SaleItemRequest = Omit<ISaleItem, "_id">;
+
 
 export async function GET() {
   try {

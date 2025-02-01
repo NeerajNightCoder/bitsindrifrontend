@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.46.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "formidable": "^3.5.2",

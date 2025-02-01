@@ -27,11 +27,9 @@ const UploadSaleItem = () => {
     formData.append("name", name);
     formData.append("contact", contact);
     formData.append("instruction", instruction);
-    if (file){
-
-      formData.append("id",JSON.stringify(file))
-      formData.append("file", actualFile);
-    }
+    if (file)formData.append("id",JSON.stringify(file))
+    
+    if(actualFile)formData.append("file", actualFile);
 
     try {
       // Make the POST request to your API endpoint
