@@ -6,13 +6,13 @@ const PrintPage = async() => {
   const printItems=await res.json()
   console.log(printItems)
   return (
-    <div className="page" id="print">
-      <div className="pagecontent relative">
+    <div className="" id="">
+      <div className="">
         {/* <FileUpload onFileUpload={()=>{}}/> */}
-        <Link href="/print/upload" className="uploadbtn absolute right-5 top-5">
+         <Link href="/print/upload" className="uploadbtn absolute right-5 top-5">
           New Print
-        </Link>
-        <div className="ordersbox">
+        </Link> 
+        <div className="page">
           <PrintOrdersTable printItems={printItems} />
         </div>
       </div>

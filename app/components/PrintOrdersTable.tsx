@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import './PrintOrdersTable.css'
 
 // Define the interface for a printing order
 interface PrintingOrder {
@@ -38,8 +39,8 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
   };
 
   return (
-    <div>
-      <div className="flex justify-around p-3">
+    <div className='' id=''>
+      <div className="p-5 flex justify-around">
         <button
           className={`text-orange-400 ${activeFilter === 'PENDING' ? 'font-bold' : ''}`}
           onClick={() => handleFilterClick('PENDING')}
@@ -59,11 +60,11 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
           All
         </button>
       </div>
-      <table>
+      <table className=''>
         <thead>
           <tr>
             <th>Sl.No.</th>
-            <th className="name">Name</th>
+            <th className="" id="filename">Name</th>
             <th className="type">View</th>
             <th className="">Instruction</th>
             <th className="">Status</th>
@@ -73,10 +74,10 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
           {filteredOrders.map((order, index) => (
             <tr key={order.id}>
               <td>{index + 1}</td>
-              <td>{order.name}</td>
+              <td>{"Avinya 2024 workshop.jpeg"}</td>
               <td><a href={order.file} target="_blank">View</a></td>
               <td>{order.instruction}</td>
-              <td>{order.status}</td>
+              <td ><span className='orderstatus'>{order.status}</span></td>
             </tr>
           ))}
         </tbody>

@@ -42,8 +42,9 @@ export default async function RootLayout({
         </div>
         <div className="flex">
           <Sidebar />
-
-          {children}
+          <div className="pagecontent relative">
+            {children}
+            </div>
         </div>
       </body>
     </html>
