@@ -1,23 +1,17 @@
-table {
-  width: 100%;
-}
 
-table * {
-  width: 100%;
-}
-
-table .name {
+.orderstatus{
+  padding: 4px 8px;
   display: flex;
-  padding: 12px 24px;
+  justify-content: center;
   align-items: center;
-  gap: 12px;
-  align-self: stretch;
-  border-bottom: 1px solid var(--hover-gray, #eaecf0);
-}
+  border-radius: 8px;
+  background: #FFE5B2;
+  color: #CA8300;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 
-table .type {
-  display: flex;
-  padding: 12px 24px;
-  align-items: center;
-  align-self: stretch;
+
 }
