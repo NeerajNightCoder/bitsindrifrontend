@@ -1,5 +1,6 @@
 import Image from "next/image";
 import TelePhone from '@/app/assets/icons/telephone-fill 1.png'
+import ProfilePic from "./profilePic";
 const ContactTable=({categoryFilter}:{categoryFilter:string})=>{
     const contacts= [
         {
@@ -96,9 +97,9 @@ const ContactTable=({categoryFilter}:{categoryFilter:string})=>{
         </tr>
         </thead>
         <tbody className="  max-h-40 overflow-y-auto">
-          {contacts.filter(contact=>!categoryFilter || contact.category==categoryFilter).map(contact=><tr key={contact.phone}>
+          {contacts.filter(contact=>!categoryFilter || contact.category==categoryFilter).map(contact=><tr className="" key={contact.phone}>
             
-            <td>{contact.profilePic?<Image alt="profile_pic" className="rounded-full" src={contact.profilePic} width={50} height={50}/>:<span className="size-12 font-bold text-2xl bg-orange-300 5 rounded-full flex justify-center items-center">{contact.name.charAt(0).toUpperCase()}</span>}<span className="w-48 "> {contact.name}</span></td>
+            <td>{<ProfilePic profilePicUrl={contact.profilePic} name={contact.name}/>}<span className="w-48 text-start"> {contact.name}</span></td>
             <td className="contact">{contact.phone}<Image src={TelePhone} alt="" width={15} height={15}/></td>
             
           </tr>)}
