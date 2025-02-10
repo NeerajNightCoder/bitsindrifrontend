@@ -39,8 +39,8 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
   };
 
   return (
-    <div className='' id=''>
-      <div className="p-5 flex justify-around">
+    <div className='w-full flex flex-col items-center' id=''>
+      <div className="p-5 flex justify-around w-1/2">
         <button
           className={`text-orange-400 ${activeFilter === 'PENDING' ? 'font-bold' : ''}`}
           onClick={() => handleFilterClick('PENDING')}
@@ -60,7 +60,7 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
           All
         </button>
       </div>
-      <table className=''>
+      <table className='printtable p-5'>
         <thead>
           <tr>
             <th>Sl.No.</th>
@@ -74,10 +74,10 @@ const PrintOrdersTable: React.FC<PrintOrdersTableProps> = ({printItems}:PrintOrd
           {filteredOrders.map((order, index) => (
             <tr key={order.id}>
               <td>{index + 1}</td>
-              <td>{"Avinya 2024 workshop.jpeg"}</td>
+              <td className=''>{"Avinya 2024 workshop.jpeg"}</td>
               <td><a href={order.file} target="_blank">View</a></td>
               <td>{order.instruction}</td>
-              <td ><span className='orderstatus'>{order.status}</span></td>
+              <td ><span className={`orderstatus ${order.status=='DONE'?'orderdone':""}`}>{order.status}</span></td>
             </tr>
           ))}
         </tbody>

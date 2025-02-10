@@ -32,7 +32,6 @@ export default async function RootLayout({
             <Link href="/">
               <p>BitSindri</p>
             </Link>
-            <FullScreenBtn />
           </div>
           <p>{currentUrl}</p>
           <div className="avatar">
