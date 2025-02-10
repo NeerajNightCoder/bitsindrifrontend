@@ -4,7 +4,6 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Avatar from "@/app/assets/elon.webp";
-import { Auth0Provider } from "@auth0/auth0-react";
 
 export default async function RootLayout({
   children,
