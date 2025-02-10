@@ -4,6 +4,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Avatar from "@/app/assets/elon.webp";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 export default async function RootLayout({
   children,
@@ -26,6 +27,11 @@ export default async function RootLayout({
         />
       </head>
       <body className={` antialiased`}>
+        <Auth0Provider  domain="dev-mtahi21gxf7arr3t.us.auth0.com"
+    clientId="MmOdxQm9qC5BvizgFq9K6TfiJ7ZgFuiB"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}>
         <div className="page-header">
           <div className="brand">
             <Link href="/">
@@ -43,6 +49,7 @@ export default async function RootLayout({
             {children}
             </div>
         </div>
+        </Auth0Provider>
       </body>
     </html>
   );
