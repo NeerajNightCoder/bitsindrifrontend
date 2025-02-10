@@ -6,24 +6,36 @@ import {
   PhoneIcon,
   PrinterIcon,
   StationaryIcon,
+  StudyMaterialIcon
 } from "../assets/icons/index";
 import SidebarMenuItem from "./SidebarMenuItem";
 
 const Sidebar = () => {
-  const data = [
+  const study = [
+    { Icon: StudyMaterialIcon, title: "Study Materials", path: "/studymaterials" },
+    { Icon: GlobeIcon, title: "Quick Links", path: "/collegeinfo" },
+    { Icon: PhoneIcon, title: "Contacts", path: "/contacts" },
+  ];
+  
+  const other=[
     { Icon: PrinterIcon, title: "Print", path: "/print" },
     { Icon: StationaryIcon, title: "Stationary", path: "/stationary" },
     { Icon: BuyIcon, title: "Buy & Sell", path: "/buyandsell" },
-    { Icon: GlobeIcon, title: "Quick Links", path: "/collegeinfo" },
-    { Icon: PhoneIcon, title: "Contacts", path: "/contacts" },
     { Icon: FoodIcon, title: "Food", path: "/food" },
-  ];
+    
+  ]
 
   return (
     <div className="sidebar">
-      {data.map((menu) => (
+      {study.map((menu) => (
         <SidebarMenuItem menuItemData={menu} key={menu.title} />
       ))}
+      <hr  />
+
+      {other.map((menu) => (
+        <SidebarMenuItem menuItemData={menu} key={menu.title} />
+      ))}
+
     </div>
   );
 };
