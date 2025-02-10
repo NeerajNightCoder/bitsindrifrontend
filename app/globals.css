@@ -278,3 +278,12 @@ td{
   background: #bfd2ff; /* Style the thumb */
   border-radius: 4px;
 }
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 90%;               
+  background-color:#E0E0E0;
+  height: 1px;
+}

@@ -23,7 +23,7 @@ const SidebarMenuItem = ({
           : "sidebar-menu-item"
       }
     >
-      <Image src={Icon} width={21} height={21} alt="icon" />
+      <Image src={Icon} width={24} height={24} alt="icon"/>
       {title}
     </Link>
   );
