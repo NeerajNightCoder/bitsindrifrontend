@@ -10,6 +10,7 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: column;
+  
   align-items: start;
   gap: 24px;
   flex: 1 0 0;
@@ -145,7 +146,7 @@ input, textarea {
   width: 100%;
 display: flex;
 justify-content: center;
-align-items: center;
+padding-top: 24px;
 background: var(--bitsindri-background, linear-gradient(180deg, #F3F5FD 0%, #F3F5FD 100%));
 }
 
@@ -199,6 +200,7 @@ input:focus,textarea:focus{
 
  
 table{
+  width: 100%;
 border-radius: 16px;
 overflow: hidden;
 border: 1px solid #F2F1F8;
@@ -219,14 +221,15 @@ tbody{
 
 th{
   
-  border: 1px solid #EAECF0;
-    padding: 12px 24px;
-    background: #FCFCFD;
-    height: 44px;
-    padding: 12px 24px;
-    
-    align-self: stretch;
-    color: #667085;
+  border-bottom: 1px solid #EAECF0;
+  padding: 12px 24px;
+  background: #FCFCFD;
+  height: 44px;
+  flex: 1;
+  padding: 12px 24px;
+  
+  align-self: stretch;
+  color: #667085;
 
 /* zenbox-regular03 */
 font-family: Lato;
@@ -236,22 +239,42 @@ font-weight: 600;
 line-height: normal;
     }
     
-    /*
+ 
 tr{
   display: flex;
-  flex: 1;
 }
 
-*/
 td{
-  border: 1px solid #EAECF0;
-  padding: 8px 24px;
+  flex: 1;
+  /* border-right: 1px solid #EAECF0; */
+  height: 40px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
   align-items: center;
-  align-self: stretch;
+
+
+
+  text-align: center;
   color: #667085;
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-bottom: 1px solid #EAECF0;
   } 
+
+/* Hide the scrollbar track */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Hide the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bfd2ff; /* Style the thumb */
+  border-radius: 4px;
+}
