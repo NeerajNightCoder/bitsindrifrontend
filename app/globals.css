@@ -8,10 +8,12 @@ body {
 
 .page {
   padding: 10px;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+
   
-  align-items: start;
   gap: 24px;
   flex: 1 0 0;
   align-self: stretch;

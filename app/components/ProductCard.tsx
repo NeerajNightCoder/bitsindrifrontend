@@ -1,3 +1,5 @@
+'use client'
+import { useState } from "react";
 import Image from "next/image";
 
 import CallActionIcon from "../assets/icons/callAction.svg";
@@ -9,26 +11,38 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({
-  product: { img, name, description, price, contact, created_at },
+  product: { filePath, title, description, price, contact,  createdAt },
 }: ProductCardProps) => {
-  const imgpath = `/uploads/${img}`;
-  console.log(imgpath);
-  if (!img) return;
+  const [showTooltip, setShowTooltip] = useState(false);
+  if (!filePath) return;
   return (
     <div className="card">
       <Image
-        src={`/uploads/${img}`}
-        alt="calculator"
+        src={`${filePath}`}
+        alt="product"
         height={195}
         width={259}
+        style={{objectFit:'contain'}}
         quality={50}
       />
       <div className="product-description">
-        <div className="details">
-          <h1>{name}</h1>
+        <div className="details relative">
+          <h1>{title}</h1>
           <h2>Price: {price}</h2>
-          <p>Description: {description}</p>
-          <h3>{created_at.toString()}</h3>
+          {description&&<div className="inline-block w-48 overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer"  
+          onMouseEnter={() => {console.log('onMouseEnter');setShowTooltip(true)}}
+          onMouseLeave={() => setShowTooltip(false)}
+      >Description:{description.length > 10 ? `${description.slice(0, 10)}...` : description}
+
+      {/* Tooltip */}
+      
+        
+      </div>}
+             {showTooltip&&
+      <div className="absolute left-1/2 -translate-x-1/2 mt-1 w-max max-w-xs bg-gray-800 text-white text-sm p-2 rounded shadow-lg z-50">
+      {description}
+        </div>} 
+          <h3>{(new Date(createdAt)).toLocaleString().toString()}</h3>
         </div>
         <div className="action-button">
           <a href={`call:${contact}`}>

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Avatar from "@/app/assets/elon.webp";
-import FullScreenBtn from "./components/FullScreenBtn";
 
 export default async function RootLayout({
   children,
@@ -32,7 +31,6 @@ export default async function RootLayout({
             <Link href="/">
               <p>BitSindri</p>
             </Link>
-            <FullScreenBtn />
           </div>
           <p>{currentUrl}</p>
           <div className="avatar">

@@ -23,13 +23,14 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
+    let filePath
 
-    const data = await request.formData();
-
-    // Handle file upload
-    const file: File | null = data.get("file") as unknown as File;
-    let filePath = "";
-
+     // ✅ Extract form data
+     const data = await request.formData();
+     const file: File | null = data.get("image") as unknown as File;
+     if (!file) {
+       return NextResponse.json({ error: "No file received" }, { status: 400 });
+     }
     if (file) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);

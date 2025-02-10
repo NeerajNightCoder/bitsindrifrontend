@@ -12,6 +12,17 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+.orderdone{
+  background: #D8F6D9;
+  color: #27A527;
+  
+}
+.printtable {
+  width: 80%;
+  padding: 10px;
+}
 
-
+.printtable td{
+  height: 50px !important;
 }
