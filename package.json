@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.3.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "formidable": "^3.5.2",

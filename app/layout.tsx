@@ -27,11 +27,6 @@ export default async function RootLayout({
         />
       </head>
       <body className={` antialiased`}>
-        <Auth0Provider  domain="dev-mtahi21gxf7arr3t.us.auth0.com"
-    clientId="MmOdxQm9qC5BvizgFq9K6TfiJ7ZgFuiB"
-    authorizationParams={{
-      redirect_uri: window.location.origin
-    }}>
         <div className="page-header">
           <div className="brand">
             <Link href="/">
@@ -49,7 +44,6 @@ export default async function RootLayout({
             {children}
             </div>
         </div>
-        </Auth0Provider>
       </body>
     </html>
   );
