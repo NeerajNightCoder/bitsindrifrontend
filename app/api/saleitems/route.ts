@@ -10,7 +10,6 @@ type SaleItemRequest = Omit<ISaleItem, "_id">;
 
 export async function GET() {
   try {
-    console.log("Fetching Sale Items...");
     await connectDB();
 
     const saleItems = await SaleItem.find({}); // Fetch from Mongoose model
@@ -23,7 +22,6 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("Creating a new sale item...");
     await connectDB();
 
     const data = await request.formData();
@@ -50,8 +48,6 @@ export async function POST(request: NextRequest) {
 
     saleItemObj.createdAt = new Date();
     if (filePath) saleItemObj.filePath = filePath; // Store file path if uploaded
-
-    console.log("Saving Sale Item:", saleItemObj);
 
     // Use Mongoose to save data
     const newSaleItem = new SaleItem(saleItemObj);

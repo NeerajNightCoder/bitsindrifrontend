@@ -1,0 +1,25 @@
+.contact{
+    display: flex;
+    justify-content: center;
+/* height: 64px; */
+/* padding: 0px 24px; */
+align-items: center;
+gap: 12px;
+align-self: stretch;
+border-bottom: 1px solid #EAECF0;
+}
+
+
+.contact-table{
+width: 1000px;
+flex-direction: column;
+align-items: flex-start;
+border-radius: 16px;
+border: 1px solid #F2F1F8;
+background: #FFF;
+}
+
+
+.contact-table td{
+    height: 75px;
+}

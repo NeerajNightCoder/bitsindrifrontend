@@ -18,7 +18,6 @@ export interface SaleItem {
 const BuyAndSellPage = async () => {
   const res = await fetch('https://bitsindri.vercel.app/api/saleitems')
   const products=await res.json()
-  console.log('##############################################',products)
   return (
     <div id="buyandsell" className="page">
       <div className="options">

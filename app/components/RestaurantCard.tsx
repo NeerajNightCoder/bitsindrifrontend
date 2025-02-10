@@ -5,6 +5,7 @@ import LocationIcon from "../assets/icons/location.svg";
 import CutlleryIcon from "../assets/icons/cutlery.svg";
 import "./ProductCard.css";
 import { RestaurantInterface } from "../food/page";
+import Link from "next/link";
 
 interface RestaurantCardProps {
   restaurant: RestaurantInterface; // Add the RestaurantInterface type here to define the props type.
@@ -31,7 +32,7 @@ const RestaurantCard = ({
   console.log(typeof closes_at);
   return (
     <div className="restaurantcard card">
-      <Image src={img} alt="calculator" height={195} width={259} />
+      <Image src={img} alt="calculator" height={195} width={259} style={{objectFit:'cover'}}/>
       <div className="product-description">
         <div className="details">
           <h1>{name}</h1>
@@ -39,9 +40,11 @@ const RestaurantCard = ({
           <p>Closes at {convertTo12Hour(closes_at)}</p>
         </div>
         <div className="flex w-full justify-between">
+            <Link href={"tel:+918434782113"}>
           <div className="action-button">
             <CallActionIcon />
           </div>
+            </Link>
           <div className="action-button">
             <LocationIcon />
           </div>

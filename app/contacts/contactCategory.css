@@ -1,0 +1,23 @@
+.contactCategory{
+    display: flex;
+width: 200px;
+height: 180px;
+padding: 58px 16px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 8px;
+border-radius: 24px;
+background: #e0eaff;
+}
+
+.activeCategory{
+    background: #bfd2ff;
+}
+
+.contactCategoryHolder{
+    display: flex;
+align-items: center;
+gap: 16px;
+justify-content: space-between;
+}

@@ -13,7 +13,6 @@ export default async function RootLayout({
 }>) {
   const headersList = await headers();
   const currentUrl = headersList.get("x-nextjs-route"); // The current path
-  console.log(currentUrl);
   return (
     <html lang="en">
       <head>

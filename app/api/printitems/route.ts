@@ -7,8 +7,6 @@ import PrintItems from "@/models/PrintItems";
 export async function GET() {
   try {
     await connectDB(); // Connect to MongoDB
-    console.log("Fetching Print Items...");
-    
     const items = await PrintItems.find({});
     return NextResponse.json(items);
   } catch (error) {
@@ -53,9 +51,6 @@ export async function POST(request: NextRequest) {
     printItemObj.status = "PENDING"; // Default status
     printItemObj.createdAt = new Date(); // Timestamp
     printItemObj.file = `/uploads/${fileName}`; // ✅ Correctly store file path
-
-    console.log("Saved print item:", printItemObj);
-
     // ✅ Save to MongoDB
     const newPrintItem = new PrintItems(printItemObj);
     const result = await newPrintItem.save();

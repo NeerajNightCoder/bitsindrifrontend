@@ -1,0 +1,6 @@
+.importantlinks{
+    display: flex;
+width: 812px;
+align-items: center;
+flex-shrink: 0;
+}
