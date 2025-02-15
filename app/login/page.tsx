@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/supabase";
 import Image from "next/image";
 
 export default function AuthPage() {
@@ -39,7 +39,6 @@ export default function AuthPage() {
     const { error } = await supabase.from("profiles").upsert({
       id: user.id,
       full_name: user.user_metadata.full_name || user.email,
-      avatar_url: user.user_metadata.avatar_url || "",
       email: user.email,
     });
 

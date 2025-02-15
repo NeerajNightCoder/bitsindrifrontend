@@ -4,9 +4,10 @@ import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/supabase";
 import Image from "next/image";
 import Avatar from "@/app/assets/elon.webp";
+import ProfileHover from "./components/profileHover";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
@@ -14,16 +15,41 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // Function to save user profile to Supabase
     const saveUserProfile = async (user: any) => {
       console.log("Saving user profile...");
-      const { error } = await supabase.from("profiles").upsert({
-        id: user.id,
-        full_name: user.user_metadata.full_name || user.email,
-        avatar_url: user.user_metadata.avatar_url || "",
-        email: user.email,
+      console.log(user.id)
+  
+      // ✅ Check if user already exists
+      const { data: existingUser, error: fetchError } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("id", user.id)
+          .single();
+  
+      if (fetchError && fetchError.code !== "PGRST116") { 
+          console.error("Error fetching profile:", fetchError.message);
+          return;
+      }
+  
+      if (existingUser) {
+          console.log("User already exists, skipping insert.");
+          return;
+      }
+  
+      // ✅ Insert new user profile if not found
+      const { error: insertError } = await supabase.from("profiles").insert({
+          id: user.id,
+          email: user.email,
+          name: user.user_metadata?.full_name || user.email.split("@")[0], // Fallback for name
+          profileimg: user.user_metadata?.avatar_url || null,
+          created_at: new Date(),
       });
   
-      if (error) console.error("Error saving profile:", error.message);
-      else console.log("User profile saved/updated successfully!");
-    };
+      if (insertError) {
+          console.error("Error saving profile:", insertError.message);
+      } else {
+          console.log("User profile saved successfully!");
+      }
+  };
+  
 
   useEffect(() => {
     // Fetch auth user
@@ -77,7 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="antialiased">
-        <div className="page-header">
+        <div className="page-header relative w-screen">
           <div className="brand">
             <Link href="/">
               <p>BitSindri</p>
@@ -90,19 +116,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </Link>
           <div>
             {user ? (
-              <>
-                <p>Welcome, {user.email}</p>
-                <button onClick={handleLogout} className="btn btn-red">Logout</button>
-              </>
+              <ProfileHover/>
             ) : (
-              <button onClick={handleLogin} className="btn btn-green">Login with Google</button>
+              <button onClick={handleLogin} className="btn btn-green">Login</button>
             )}
           </div>
         </div>
 
         <div className="flex">
           <Sidebar />
-          <div className="pagecontent relative bg-cyan-700 p-10">{children}</div>
+          <div className="pagecontent relative">{children}</div>
         </div>
       </body>
     </html>
