@@ -1,0 +1,52 @@
+.fullname{
+    color: #000;
+font-family: Inter;
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: -0.114px;
+}
+
+
+.info{
+    color: #000;
+font-family: Inter;
+font-size: 12px;
+font-style: normal;
+font-weight: 300;
+line-height: normal;
+letter-spacing: -0.114px;
+}
+
+
+.socialstats{
+    color: #000;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: -0.114px;
+display: flex;
+justify-content: space-between;
+width: 50%;
+}
+
+
+
+.editBtn{
+    border-radius: 26px;
+background: #4880FF;
+box-shadow: 0px 1.673px 3.346px 0px rgba(58, 87, 232, 0.30);
+display: flex;
+padding: 6.693px 20.078px;
+align-items: center;
+gap: 6px;
+color: #FFF;
+font-family: Inter;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 175%; /* 21px */
+}
