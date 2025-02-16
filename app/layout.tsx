@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase/supabase";
 import Image from "next/image";
 import Avatar from "@/app/assets/elon.webp";
 import ProfileHover from "./components/profileHover";
+import { UserProvider } from "@/context/userContext";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
@@ -103,18 +104,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="antialiased">
+        <UserProvider>
+
         <div className="page-header relative w-screen">
-          <div className="brand">
+          <div className="">
             <Link href="/">
               <p>BitSindri</p>
             </Link>
           </div>
-          <Link href="/profile">
-          <div className="avatar">
-            <Image src={Avatar} width={1280} height={1280} alt="avatar" />
-          </div>
-          </Link>
-          <div>
+
+
+          
+          <div className="">
             {user ? (
               <ProfileHover/>
             ) : (
@@ -127,6 +128,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Sidebar />
           <div className="pagecontent relative">{children}</div>
         </div>
+            </UserProvider>
       </body>
     </html>
   );

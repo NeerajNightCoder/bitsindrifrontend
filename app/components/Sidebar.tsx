@@ -15,6 +15,7 @@ const Sidebar = () => {
     { Icon: StudyMaterialIcon, title: "Study Materials", path: "/studymaterials" },
     { Icon: GlobeIcon, title: "Quick Links", path: "/collegeinfo" },
     { Icon: PhoneIcon, title: "Contacts", path: "/contacts" },
+    { Icon: PhoneIcon, title: "Community", path: "/community" },
   ];
   
   const other=[
