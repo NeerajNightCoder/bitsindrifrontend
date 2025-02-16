@@ -29,6 +29,9 @@ const Community = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const {  userProfile } = useUser();
+  const departments = ["All", "Civil", "Electrical", "ECE", "Mechanical", "IT"];
+  const [searchName, setSearchName] = useState("");
+  const [searchDept, setSearchDept] = useState("All");
 
 
   useEffect(() => {
@@ -58,6 +61,15 @@ if (error) {
     fetchPosts();
   }, []);
 
+
+    // Filter function
+    const filterProfiles = (profile: Profile) => {
+        return (
+          profile.name.toLowerCase().includes(searchName.toLowerCase()) &&
+          (searchDept === "All" || profile.dept === searchDept)
+        );
+      };
+
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-6">Community</h1>
@@ -72,18 +84,41 @@ if (error) {
       </div>
       
       {activeTab === "people" ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {profiles.map((profile) => (
-            <ProfileCard key={profile.id} profile={profile} />
+        <>
+        {/* Search Fields */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          className="w-full md:w-1/2 p-2 border border-gray-300 rounded"
+        />
+        <select
+          value={searchDept}
+          onChange={(e) => setSearchDept(e.target.value)}
+          className="w-full md:w-1/2 p-2 border border-gray-300 rounded"
+        >
+          {departments.map((dept) => (
+            <option key={dept} value={dept}>
+              {dept}
+            </option>
           ))}
+        </select>
+      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {profiles.filter(filterProfiles).map((profile) => (
+              <ProfileCard key={profile.id} profile={profile} />
+            ))}
         </div>
+            </>
       ) : (
         <div className="space-y-4">
           {posts.length === 0 ? (
-            <p className="text-center text-gray-600">No posts yet.</p>
-          ) : (
-            posts.map((post) => <PostCard key={post.id} post={post} userId={userProfile?.id} />)
-          )}
+              <p className="text-center text-gray-600">No posts yet.</p>
+            ) : (
+                posts.map((post) => <PostCard key={post.id} post={post} userId={userProfile?.id} />)
+            )}
         </div>
       )}
     </div>
