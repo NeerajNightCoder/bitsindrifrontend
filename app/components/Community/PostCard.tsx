@@ -1,23 +1,48 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/supabase";
+import React, { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/supabase";
 import Link from "next/link";
 import Image from "next/image";
+import { Post } from "@/app/community/page";
 
-const PostCard = ({ post, userId }) => {
+export interface PostCardProps{
+  post:Post;
+  userId:string;
+}
+
+export interface Profile_Min{
+  id: string;
+  name: string;
+  profileimg: string | null;
+}
+
+interface LikedUser{
+  user_id:string;
+  profiles:Profile_Min
+}
+
+interface Comment{
+  id:string;
+  content:string;
+  created_at:string;
+  profiles:Profile_Min
+}
+
+const PostCard = ({ post, userId }:PostCardProps) => {
+    const supabase = createClient()
   const [likes, setLikes] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [showLikes, setShowLikes] = useState(false);
-  const [likedUsers, setLikedUsers] = useState([]);
+  const [likedUsers, setLikedUsers] = useState<LikedUser[]>([]);
 
   useEffect(() => {
     fetchLikes();
     fetchComments();
-  }, []);
+  }, [supabase]);
 
   // Fetch likes count and check if user has liked the post
   const fetchLikes = async () => {
@@ -43,9 +68,19 @@ const PostCard = ({ post, userId }) => {
       .from("likes")
       .select("user_id, profiles(id, name, profileimg)")
       .eq("post_id", post.id);
-
-    if (!error) setLikedUsers(data);
+  
+    console.log("###", data?.[0]?.profiles); // Check if it's an object or an array
+  
+    if (!error && data) {
+      setLikedUsers(
+        data.map((item) => ({
+          ...item,
+          profiles: Array.isArray(item.profiles) ? item.profiles[0] : item.profiles,
+        })) as LikedUser[]
+      );
+    }
   };
+  
 
   // Toggle Like
   const handleLike = async () => {
@@ -67,15 +102,17 @@ const PostCard = ({ post, userId }) => {
       .eq("post_id", post.id)
       .order("created_at", { ascending: true });
 
-    if (!error) setComments(data);
+    if (!error && data){
+      setComments(data.map(item=>({...item,profiles:Array.isArray(item.profiles)?item.profiles[0]:item.profiles})) as Comment[]);
+    } 
   };
 
   // Add new comment
-  const handleCommentSubmit = async (e) => {
+  const handleCommentSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim()) return;
 
-    const { data, error } = await supabase.from("comments").insert([
+    const {  error } = await supabase.from("comments").insert([
       {
         post_id: post.id,
         user_id: userId,
@@ -90,13 +127,13 @@ const PostCard = ({ post, userId }) => {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4">
+    <div className="bg-white shadow-lg rounded-lg p-4 w-full w-48">
       <Link href={`profile/${post.user_id}`}>
         <div className="flex items-center gap-3">
           <Image
             width={100}
             height={100}
-            src={post.profiles?.profileimg || "/default-avatar.png"}
+            src={post.profiles?.profileimg || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
             alt={post.profiles?.name}
             className="w-10 h-10 rounded-full object-cover"
           />
@@ -111,7 +148,7 @@ const PostCard = ({ post, userId }) => {
         <img
           src={post.image_url}
           alt="Post"
-          className="w-full h-40 object-cover rounded mt-2"
+          className="w-full object-cover rounded mt-2"
         />
       )}
 
@@ -165,7 +202,7 @@ const PostCard = ({ post, userId }) => {
                 <Image
                   width={30}
                   height={30}
-                  src={user.profiles?.profileimg || "/default-avatar.png"}
+                  src={user.profiles?.profileimg || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                   alt={user.profiles?.name}
                   className="w-8 h-8 rounded-full object-cover"
                 />
@@ -190,7 +227,7 @@ const PostCard = ({ post, userId }) => {
                 <Image
                   width={30}
                   height={30}
-                  src={comment.profiles?.profileimg || "/default-avatar.png"}
+                  src={comment.profiles?.profileimg || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                   alt={comment.profiles?.name}
                   className="w-8 h-8 rounded-full object-cover"
                 />

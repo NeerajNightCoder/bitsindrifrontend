@@ -1,27 +1,29 @@
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
+export function middleware(req: NextRequest) {
+  const session = req.cookies.get("supabase_session");
 
-  // Get the current session
-  const { data: { session } } = await supabase.auth.getSession();
+  // List of protected routes
+  const protectedRoutes = ["/dashboard", "/profile", "/print","buyandsell"];
 
-  // Define protected routes that require authentication
-  const protectedRoutes = ["/print", "/dashboard", "/profile", "/settings"]; // Add more as needed
+  // Check if request matches a protected route
+  const isProtected = protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
 
-  const isProtectedRoute = protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
+  if (isProtected) {
+    if (!session) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
 
-  // If user is not authenticated and tries to access a protected route, redirect to login
-  if (!session && isProtectedRoute) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    // Mark the response as dynamic (forces server-side rendering)
+    const response = NextResponse.next();
+    response.headers.set("x-middleware-force-dynamic", "true");
+    return response;
   }
 
-  return res;
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/print", "/dashboard/:path*", "/settings"], // Add more routes as needed
+  matcher: ["/dashboard/:path*", "/profile/:path*", "/print/:path*","/buyandsell/:path*"], // Add all protected routes
 };

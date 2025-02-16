@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabase/supabase";
+import { createClient } from "@/lib/supabase/supabase";
 import Image from "next/image";
 import '@/app/profile/profile.css'
 import { useUser } from "@/context/userContext";
@@ -19,6 +19,7 @@ interface PublicProfile {
 }
 
 const ProfilePage = () => {
+  const supabase=createClient()
   const { id } = useParams(); // Get profile ID from the URL
   const [profile, setProfile] = useState<PublicProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,7 @@ useEffect(() => {
   if (!profile || !supabaseUser) return;
 
   const checkFollowStatus = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("follows")
       .select("id")
       .eq("follower_id", supabaseUser.id)
@@ -43,7 +44,7 @@ useEffect(() => {
   };
 
   checkFollowStatus();
-}, [ profile]);
+}, [ profile,supabaseUser,supabase]);
 
 
   useEffect(() => {
@@ -65,7 +66,7 @@ useEffect(() => {
     };
 
     fetchProfile();
-  }, [id]);
+  }, [id,supabase]);
 
 
   const handleFollow = async () => {
@@ -119,7 +120,7 @@ useEffect(() => {
     };
   
     fetchCounts();
-  }, [profile, isFollowing]);
+  }, [profile, isFollowing,supabase]);
   
 
 
@@ -131,7 +132,7 @@ useEffect(() => {
 
   return (<div className="w-full">
         <div className="flex gap-4 items-center relative w-1/2 m-auto ">
-          <Image className="rounded-full" alt="" width={100} height={100} src={profile.profileimg||""} />
+          <Image className="rounded-full" alt="" width={100} height={100} src={profile.profileimg||"https://cdn-icons-png.flaticon.com/512/149/149071.png"} />
           <div className="flex flex-col gap-2"><h1 className="fullname">{profile?.name}</h1>
             <h2 className="info">{profile.dept} | Full stack developer</h2>
             <h2 className="socialstats"><span>{followersCount} Followers</span><span>{followingCount} Following</span></h2>

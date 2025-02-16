@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { supabase } from '@/lib/supabase/supabase';
-import { User } from '@supabase/supabase-js';
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import Cookies from "js-cookie"; // Import for cookie handling
+import { createClient } from "@/lib/supabase/supabase";
+import { User } from "@supabase/supabase-js";
 
 // Define Profile Type
 export interface UserProfile {
@@ -14,7 +15,7 @@ export interface UserProfile {
   following: number;
   about?: string;
   profileimg?: string;
-  accountstatus: 'active' | 'inactive' | 'banned';
+  accountstatus: "active" | "inactive" | "banned";
   created_at: string;
 }
 
@@ -33,6 +34,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
+  const supabase=createClient()
   const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -41,33 +43,38 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
     const getUser = async () => {
       setLoading(true);
 
-      // Get Supabase User Session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-      if (sessionError || !session?.user) {
-        console.error("Session Error:", sessionError);
+      // ✅ Get session from cookies instead of API
+      const sessionCookie = Cookies.get("supabase_session");
+      if (!sessionCookie) {
+        console.log("No session cookie found");
         setSupabaseUser(null);
         setUserProfile(null);
         setLoading(false);
         return;
       }
 
-      const user = session.user;
-      setSupabaseUser(user);
-      console.log(user.id)
+      try {
+        const session = JSON.parse(sessionCookie);
+        setSupabaseUser(session.user);
+        console.log("User ID from cookie:", session.user.id);
 
-      // Fetch Profile Data from 'profiles' table
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("id, name, email, dept, followers, following, about, profileimg, accountstatus, created_at")
-        .eq("id", user.id)
-        .single();
+        // ✅ Fetch Profile Data from 'profiles' table
+        const { data: profile, error: profileError } = await supabase
+          .from("profiles")
+          .select("id, name, email, dept, followers, following, about, profileimg, accountstatus, created_at")
+          .eq("id", session.user.id)
+          .single();
 
-      if (profileError) {
-        console.error("Profile Fetch Error:", profileError);
+        if (profileError) {
+          console.error("Profile Fetch Error:", profileError);
+          setUserProfile(null);
+        } else {
+          setUserProfile(profile);
+        }
+      } catch (error) {
+        console.error("Error parsing session:", error);
+        setSupabaseUser(null);
         setUserProfile(null);
-      } else {
-        setUserProfile(profile);
       }
 
       setLoading(false);
@@ -75,9 +82,16 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
 
     getUser();
 
-    // Listen for auth state changes
+    // ✅ Listen for auth state changes (e.g., login/logout)
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSupabaseUser(session?.user || null);
+      if (session?.user) {
+        setSupabaseUser(session.user);
+        Cookies.set("supabase_session", JSON.stringify(session), { expires: 7 });
+      } else {
+        setSupabaseUser(null);
+        setUserProfile(null);
+        Cookies.remove("supabase_session");
+      }
     });
 
     return () => {
@@ -96,7 +110,7 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

@@ -1,74 +1,82 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/supabase";
+import { createClient } from "@/lib/supabase/supabase";
+import Cookies from "js-cookie"; // For setting cookies
 import Image from "next/image";
 
 export default function AuthPage() {
   const [user, setUser] = useState<any>(null);
+  const supabase=createClient()
 
   useEffect(() => {
+    // 🔹 Load session from cookies on page reload
+    const storedSession = Cookies.get("supabase_session");
+    if (storedSession) {
+      const parsedSession = JSON.parse(storedSession);
+      setUser(parsedSession.user);
+    }
+
     const fetchUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
+      console.log("Fetched session:", session);
+
       if (session?.user) {
         setUser(session.user);
-        await saveUserProfile(session.user); // Ensure profile is updated
+        Cookies.set("supabase_session", JSON.stringify(session), {
+          expires: 7,
+          secure: true,
+          sameSite: "Strict",
+        });
       }
     };
 
     fetchUser();
 
-    // Listen for auth state changes (should be outside signInWithGoogle)
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (session?.user) {
-        setUser(session.user);
-        await saveUserProfile(session.user);
-      } else {
-        setUser(null);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        if (session?.user) {
+          setUser(session.user);
+          Cookies.set("supabase_session", JSON.stringify(session), { expires: 7 });
+        } else {
+          setUser(null);
+          Cookies.remove("supabase_session");
+        }
       }
-    });
+    );
 
-    return () => {
-      authListener.subscription.unsubscribe() // Correct cleanup
-    };
-  }, []);
-
-  // Function to save user profile to Supabase
-  const saveUserProfile = async (user: any) => {
-    console.log("Saving user profile...");
-    const { error } = await supabase.from("profiles").upsert({
-      id: user.id,
-      full_name: user.user_metadata.full_name || user.email,
-      email: user.email,
-    });
-
-    if (error) console.error("Error saving profile:", error.message);
-    else console.log("User profile saved/updated successfully!");
-  };
+    return () => authListener.subscription.unsubscribe();
+  }, [supabase]);
 
   const signInWithGoogle = async () => {
-    console.log("1. Initiating Google Sign-In...");
-    const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+    console.log("Initiating Google Sign-In...");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          prompt: "select_account", // Forces Google to show account selection
+        },
+      },
+    });
   
     if (error) {
       console.error("Google Sign-In Error:", error.message);
-      return;
-    }
-  
-    // ✅ Wait until authentication is completed
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user) {
-      console.log("2. Authentication successful, saving profile...");
-      await saveUserProfile(session.user);
-      setUser(session.user); // Ensure UI updates
     }
   };
+  
+  
   
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
-    if (error) console.error("Sign-Out Error:", error.message);
+    if (error) {
+      console.error("Sign-Out Error:", error.message);
+    } else {
+      setUser(null);
+      Cookies.remove("supabase_session");
+    }
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-6">
@@ -80,7 +88,7 @@ export default function AuthPage() {
             </h2>
             {user.user_metadata.avatar_url && (
               <Image
-                src={user.user_metadata.avatar_url}
+                src={user.user_metadata.avatar_url||'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
                 alt="User Avatar"
                 width={80}
                 height={80}
