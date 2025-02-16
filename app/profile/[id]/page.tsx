@@ -94,20 +94,33 @@ useEffect(() => {
 
 
   const [followersCount, setFollowersCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  
 
-useEffect(() => {
-  if(!profile) return
-  const fetchFollowersCount = async () => {
-    const { count, error } = await supabase
-      .from("follows")
-      .select("id", { count: "exact" })
-      .eq("following_id", profile.id);
-
-    if (!error) setFollowersCount(count||0);
-  };
-
-  fetchFollowersCount();
-}, [profile, isFollowing]);
+  useEffect(() => {
+    if (!profile) return;
+  
+    const fetchCounts = async () => {
+      // Fetch followers count
+      const { count: followersCount, error: followersError } = await supabase
+        .from("follows")
+        .select("id", { count: "exact" })
+        .eq("following_id", profile.id);
+  
+      if (!followersError) setFollowersCount(followersCount || 0);
+  
+      // Fetch following count
+      const { count: followingCount, error: followingError } = await supabase
+        .from("follows")
+        .select("id", { count: "exact" })
+        .eq("follower_id", profile.id);
+  
+      if (!followingError) setFollowingCount(followingCount || 0);
+    };
+  
+    fetchCounts();
+  }, [profile, isFollowing]);
+  
 
 
   if (loading) return <p className="text-center">Loading profile...</p>;
@@ -121,7 +134,7 @@ useEffect(() => {
           <Image className="rounded-full" alt="" width={100} height={100} src={profile.profileimg||""} />
           <div className="flex flex-col gap-2"><h1 className="fullname">{profile?.name}</h1>
             <h2 className="info">{profile.dept} | Full stack developer</h2>
-            <h2 className="socialstats"><span>{followersCount} Followers</span><span>37 Following</span></h2>
+            <h2 className="socialstats"><span>{followersCount} Followers</span><span>{followingCount} Following</span></h2>
             <h3>Secretary (HnCC BIT Sindri . March 2024 - Present)</h3>
           </div>
           <button
