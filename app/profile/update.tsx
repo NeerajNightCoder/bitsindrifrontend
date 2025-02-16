@@ -1,9 +1,9 @@
 "use client"; // Required for Next.js client components
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase/supabase";
+import { createClient } from "@/lib/supabase/supabase";
 
-const UpdateProfileForm = ({ userId }: { userId: string }) => {
+const UpdateProfileForm = ({ userId }: { userId: string }) => {const supabase = createClient()
   const [profile, setProfile] = useState({
     name: "",
     email: "",

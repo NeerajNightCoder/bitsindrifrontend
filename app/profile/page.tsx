@@ -2,7 +2,6 @@
 import { redirect } from 'next/navigation'
 import Image from "next/image"
 import './profile.css'
-import { useState } from "react";
 import {createClient} from '@/lib/supabase/server'
 import UpdateProfileForm from './update';
 
@@ -39,7 +38,7 @@ const Profile=async ()=>{
     return (
         <div className="w-full">
             <div className="flex gap-4 items-center relative w-1/2 m-auto ">    
-                <Image className="rounded-full" alt="" width={100} height={100} src={profile.profileimg}/>
+                <Image className="rounded-full" alt="" width={100} height={100} src={profile.profileimg || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}/>
                 <div className="flex flex-col gap-2"><h1 className="fullname">{profile?.name}</h1>
                 <h2 className="info">{profile.dept} | Full stack developer</h2>
                 <h2 className="socialstats"><span>35 Followers</span><span>37 Following</span></h2>

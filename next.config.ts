@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["i.ibb.co","th.bing.com"], // Add the domain where your image is hosted
+    domains: ["i.ibb.co","th.bing.com","cdn-icons-png.flaticon.com"], // Add the domain where your image is hosted
     remotePatterns: [
       {
         protocol: "https",

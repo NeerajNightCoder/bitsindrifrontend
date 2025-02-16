@@ -4,14 +4,15 @@ import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/supabase";
-import Image from "next/image";
-import Avatar from "@/app/assets/elon.webp";
+import { createClient } from "@/lib/supabase/supabase";
 import ProfileHover from "./components/profileHover";
+import { UserProvider } from "@/context/userContext";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null);
 
+
+  const supabase=createClient()
     // Function to save user profile to Supabase
     const saveUserProfile = async (user: any) => {
       console.log("Saving user profile...");
@@ -54,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     // Fetch auth user
     const getUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
+      const { data } = await supabase.auth.getUser();
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) await saveUserProfile(session.user); // Ensure profile is updated
       if (data?.user) {
@@ -76,19 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
-
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-    if (error) console.error("Login error:", error.message);
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-  };
+  }, [supabase]);
 
   return (
     <html lang="en">
@@ -103,22 +92,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="antialiased">
+        <UserProvider>
+
         <div className="page-header relative w-screen">
-          <div className="brand">
+          <div className="">
             <Link href="/">
               <p>BitSindri</p>
             </Link>
           </div>
-          <Link href="/profile">
-          <div className="avatar">
-            <Image src={Avatar} width={1280} height={1280} alt="avatar" />
-          </div>
-          </Link>
-          <div>
+
+
+          
+          <div className="">
             {user ? (
               <ProfileHover/>
             ) : (
-              <button onClick={handleLogin} className="btn btn-green">Login</button>
+              <Link href="/login" className="btn btn-green">Login</Link>
             )}
           </div>
         </div>
@@ -127,6 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Sidebar />
           <div className="pagecontent relative">{children}</div>
         </div>
+            </UserProvider>
       </body>
     </html>
   );

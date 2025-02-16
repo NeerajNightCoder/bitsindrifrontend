@@ -4,6 +4,7 @@ import CloudIcon from "../../assets/icons/cloud.svg";
 import "./upload.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const UploadSaleItem = () => {  
   const [file, setFile] = useState<File | null>(null);
@@ -85,7 +86,7 @@ const UploadSaleItem = () => {
         {/* File Preview */}
         {file && (
           <div className="relative border-2 mt-3 p-2">
-            <img
+            <Image width={100} height={100}
               className="rounded-md w-32"
               src={URL.createObjectURL(file)}
               alt="Uploaded preview"
