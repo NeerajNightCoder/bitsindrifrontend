@@ -14,6 +14,7 @@ export default function AuthPage() {
     const storedSession = Cookies.get("supabase_session");
     if (storedSession) {
       const parsedSession = JSON.parse(storedSession);
+      console.log('parsedsession',parsedSession.user)
       setUser(parsedSession.user);
     }
 
@@ -23,6 +24,7 @@ export default function AuthPage() {
 
       if (session?.user) {
         setUser(session.user);
+        console.log('session',session.user);
         Cookies.set("supabase_session", JSON.stringify(session), {
           expires: 7,
           secure: true,

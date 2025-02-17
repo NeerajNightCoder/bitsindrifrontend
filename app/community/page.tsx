@@ -118,10 +118,10 @@ if (error) {
             </>
       ) : (
         <div className="space-y-4">
-          {posts.length === 0 || !userProfile? (
+          {posts.length === 0? (
               <p className="text-center text-gray-600">No posts yet.</p>
             ) : (
-                posts.map((post) => <PostCard key={post.id} post={post} userId={userProfile.id} />)
+                posts.map((post) => <PostCard key={post.id} post={post} userId={userProfile?.id} />)
             )}
         </div>
       )}

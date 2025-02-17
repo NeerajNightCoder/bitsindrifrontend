@@ -6,7 +6,6 @@ import { randomUUID } from "crypto";
 
 export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
-  console.log(formData);
 
   const file = formData.get("file") as File | null;
   // const name = formData.get("name");
