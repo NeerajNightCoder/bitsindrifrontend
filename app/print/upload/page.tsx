@@ -169,3 +169,4 @@ const UploadSaleItem = () => {
 };
 
 export default UploadSaleItem;
+export const dynamic = 'force-dynamic'

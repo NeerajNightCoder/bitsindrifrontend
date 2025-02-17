@@ -38,3 +38,4 @@ const BuyAndSellPage = async () => {
 };
 
 export default BuyAndSellPage;
+export const dynamic = 'force-dynamic'

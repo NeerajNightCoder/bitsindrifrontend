@@ -21,3 +21,4 @@ const PrintPage = async() => {
 };
 
 export default PrintPage;
+export const dynamic = 'force-dynamic'

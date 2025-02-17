@@ -5,7 +5,7 @@ export function middleware(req: NextRequest) {
   const session = req.cookies.get("supabase_session");
 
   // List of protected routes
-  const protectedRoutes = ["/dashboard", "/profile", "/print","buyandsell"];
+  const protectedRoutes = ["/dashboard", "/profile", "/print","/buyandsell"];
 
   // Check if request matches a protected route
   const isProtected = protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route));

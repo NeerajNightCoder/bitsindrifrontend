@@ -52,3 +52,4 @@ const Profile=async ()=>{
 }
 
 export default Profile
+export const dynamic = 'force-dynamic'

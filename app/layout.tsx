@@ -3,10 +3,8 @@
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/supabase";
 import ProfileHover from "./components/profileHover";
-import { UserProvider, useUser } from "@/context/userContext";
+import { UserProvider } from "@/context/userContext";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
