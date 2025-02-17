@@ -5,10 +5,11 @@ import { createClient } from "@/lib/supabase/supabase";
 import Link from "next/link";
 import Image from "next/image";
 import { Post } from "@/app/community/page";
+import { useUser } from "@/context/userContext";
 
 export interface PostCardProps{
   post:Post;
-  userId:string;
+  userId:string|undefined;
 }
 
 export interface Profile_Min{
@@ -30,6 +31,7 @@ interface Comment{
 }
 
 const PostCard = ({ post, userId }:PostCardProps) => {
+  const {userProfile} =useUser()
     const supabase = createClient()
   const [likes, setLikes] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
@@ -52,7 +54,7 @@ const PostCard = ({ post, userId }:PostCardProps) => {
       .eq("post_id", post.id);
 
     if (!likeError) setLikes(likeCount.length);
-
+    if(!userId) return
     const { data: userLike, error: userLikeError } = await supabase
       .from("likes")
       .select("id")
@@ -84,6 +86,10 @@ const PostCard = ({ post, userId }:PostCardProps) => {
 
   // Toggle Like
   const handleLike = async () => {
+    if(!userProfile) {
+
+      return alert('You need to be logged in to like the post')
+    }
     if (hasLiked) {
       await supabase.from("likes").delete().match({ post_id: post.id, user_id: userId });
       setLikes(likes - 1);
@@ -93,23 +99,27 @@ const PostCard = ({ post, userId }:PostCardProps) => {
     }
     setHasLiked(!hasLiked);
   };
-
+  
   // Fetch comments
   const fetchComments = async () => {
     const { data, error } = await supabase
-      .from("comments")
-      .select("id, content, created_at, profiles(id, name, profileimg)")
-      .eq("post_id", post.id)
-      .order("created_at", { ascending: true });
-
+    .from("comments")
+    .select("id, content, created_at, profiles(id, name, profileimg)")
+    .eq("post_id", post.id)
+    .order("created_at", { ascending: true });
+    
     if (!error && data){
       setComments(data.map(item=>({...item,profiles:Array.isArray(item.profiles)?item.profiles[0]:item.profiles})) as Comment[]);
     } 
   };
-
+  
   // Add new comment
   const handleCommentSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
+    if(!userProfile) {
+      return alert('You need to be logged in to like the post')
+    }
+    
     if (!newComment.trim()) return;
 
     const {  error } = await supabase.from("comments").insert([

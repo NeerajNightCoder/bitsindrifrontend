@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from "react";
 import Cookies from "js-cookie"; // Import for cookie handling
 import { createClient } from "@/lib/supabase/supabase";
 import { User } from "@supabase/supabase-js";
@@ -24,6 +24,7 @@ interface UserContextType {
   supabaseUser: User | null; // Raw Supabase user session
   userProfile: UserProfile | null; // Data from 'profiles' table
   loading: boolean;
+  setUserProfile:Dispatch<SetStateAction<UserProfile | null>>
 }
 
 // Create Context
@@ -34,6 +35,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
+  const sessionCookie = Cookies.get("supabase_session");
   const supabase=createClient()
   const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -44,7 +46,6 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
       setLoading(true);
 
       // ✅ Get session from cookies instead of API
-      const sessionCookie = Cookies.get("supabase_session");
       if (!sessionCookie) {
         console.log("No session cookie found");
         setSupabaseUser(null);
@@ -97,10 +98,10 @@ export const UserProvider = ({ children }: UserProviderProps): JSX.Element => {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [sessionCookie]);
 
   return (
-    <UserContext.Provider value={{ supabaseUser, userProfile, loading }}>
+    <UserContext.Provider value={{ supabaseUser, userProfile, loading,setUserProfile }}>
       {children}
     </UserContext.Provider>
   );
